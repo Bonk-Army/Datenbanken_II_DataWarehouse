@@ -58,6 +58,9 @@
     <!-- Theme used for syntax highlighted code -->
     <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
 
+    <!-- Chalkboard -->
+    <link rel="stylesheet" href="./plugin/chalkboard/style.css">
+    <link rel="stylesheet" href="./plugin/customcontrols/style.css">
     <!-- Font awesome -->
     <link rel="stylesheet" href="./plugin/menu/font-awesome/css/fontawesome.css">
 
@@ -398,6 +401,9 @@
     <script src="plugin/notes/notes.js"></script>
     <script src="plugin/markdown/markdown.js"></script>
     <script src="plugin/highlight/highlight.js"></script>
+    <!-- Chalkboard -->
+    <script src="plugin/chalkboard/plugin.js"></script>
+    <script src="plugin/customcontrols/plugin.js"></script>
     <script src="plugin/menu/menu.js"></script>
     <script>
         // More info about initialization & config:
@@ -411,6 +417,36 @@
             history: true,
             center: true,
             mouseWheel: true,
+            chalkboard: {
+                boardmarkerWidth: 3,
+                chalkWidth: 7,
+                chalkEffect: 1.0,
+                storage: null,
+                src: null,
+                readOnly: undefined,
+                transition: 800,
+                theme: "chalkboard",
+                background: [ 'rgba(127,127,127,.1)' , path + 'img/blackboard.png' ],
+                grid: { color: 'rgb(50,50,10,0.5)', distance: 80, width: 2},
+                eraser: { src: path + 'img/sponge.png', radius: 20},
+                boardmarkers : [
+                    { color: 'rgba(100,100,100,1)', cursor: 'url(' + path + 'img/boardmarker-black.png), auto'},
+                    { color: 'rgba(30,144,255, 1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto'},
+                    { color: 'rgba(220,20,60,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto'},
+                    { color: 'rgba(50,205,50,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto'},
+                    { color: 'rgba(255,140,0,1)', cursor: 'url(' + path + 'img/boardmarker-orange.png), auto'},
+                    { color: 'rgba(150,0,20150,1)', cursor: 'url(' + path + 'img/boardmarker-purple.png), auto'},
+                    { color: 'rgba(255,220,0,1)', cursor: 'url(' + path + 'img/boardmarker-yellow.png), auto'}
+                ]
+            },
+            customcontrols: {
+                controls: [
+                    { icon: '<i class="fa fa-pen"></i>',
+                        title: 'Toggle notes canvas (C)',
+                        action: 'RevealChalkboard.toggleNotesCanvas();'
+                    }
+                ]
+            },
             menu: { // Menu works best with font-awesome installed: sudo apt-get install fonts-font-awesome
                 side:'left',
                 themes: false,
@@ -419,7 +455,7 @@
                 hideMissingTitles: true
             },
             // Learn about plugins: https://revealjs.com/plugins/
-            plugins: [RevealMarkdown, RevealHighlight, RevealNotes,RevealMenu]
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes,RevealMenu,RevealChalkboard, RevealCustomControls]
         });
         Reveal.on('slidechanged', event => {
             if (event.indexh == 3) {
@@ -438,7 +474,14 @@
                 document.getElementById("persons").innerHTML = henningIcon;
             }
         });
+        function changeTheme(input) {
+            var config = {};
+            config.theme = input.value;
+            Reveal.getPlugin("RevealChalkboard").configure(config);
+            input.blur();
+        }
     </script>
+
 </div>
 </body>
 </html>
